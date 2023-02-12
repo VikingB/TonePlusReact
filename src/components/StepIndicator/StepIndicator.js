@@ -13,7 +13,7 @@ function StepIndicator({ step, delay, setDelay }) {
           </div>
         ))}
         <Slider
-          label="Master volume"
+          label="Delay Dry/Wet"
           min={0}
           max={1}
           step={0.01}

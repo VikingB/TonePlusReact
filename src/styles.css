@@ -224,7 +224,7 @@ h1 {
   width: 3rem;
   font-size: 1rem;
 }
-.pressed{
+.cell.pressed{
   color: white;
   background: var(--color-synth-dark-gray);
   font-size: 1.1rem;
@@ -261,7 +261,7 @@ margin: 3rem 0;
   background: var(--color-synth-yellow);
 }
 .toggleButton{
-  background: var(--color-synth-white);
+  background: var(--color-synth-white);  
 }
 
 
