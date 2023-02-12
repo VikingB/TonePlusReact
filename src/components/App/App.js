@@ -159,7 +159,7 @@ function App() {
     setStep(-1);
   }
   function registerLoop() {
-    Tone.Transport.bpm.value = 120;
+    Tone.Transport.bpm.value = 90;
     const loop = new Tone.Loop((time) => {
       // triggered every eighth note.
       setStep((current) => current + 1);
