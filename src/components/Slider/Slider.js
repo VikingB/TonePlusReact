@@ -1,8 +1,9 @@
 import React from 'react';
+import debounce from 'lodash.debounce';
 
 import styles from './Slider.module.css';
 
-function Slider({ label, min, max, value, onChange, ...delegated  }) {
+function Slider({ label, ...delegated }) {
   const id = React.useId();
   
   return (
@@ -14,11 +15,10 @@ function Slider({ label, min, max, value, onChange, ...delegated  }) {
         {label}
       </label>
       <input
+        {...delegated}
         type="range"
         id={id}
         className={styles.slider}
-
-        {...delegated}
       />
     </div>
   );

@@ -9,7 +9,8 @@ function Instruments({ step, allSeries, setAllSeries, IDs }) {
   useEffect(() => {
     let obj = {};
     range(numberOfInstruments).forEach(element => {
-    obj[`instrument-${element}`] = []
+    obj[`instrument-${element}`] = {series: []}
+    obj[`instrument-${element}`].setting = {}
   })
   setAllSeries(obj)
 

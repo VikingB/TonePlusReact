@@ -7,6 +7,7 @@ import * as Tone from "tone";
 import Grid from "../Grid";
 import StepIndicator from "../StepIndicator";
 import Instruments from "../Instruments";
+import { pingpong } from "three/src/math/MathUtils";
 
 const synth = new Tone.Synth({
   "harmonicity":8,
@@ -128,18 +129,27 @@ const IDs = [
 ]
 
 
+const pingPong = new Tone.PingPongDelay("4n", 0.2)
+
+
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [allSeries, setAllSeries] = React.useState({});
+  const [delay, setDelay] = React.useState(0);
   const [step, setStep] = React.useState(-1);
 
 
-  console.log(allSeries)
+
 
   function startLoop() {
     if(isPlaying) return;
     Tone.start();
     Tone.Transport.start();
+    pingPong.toDestination();
+    synths[0].connect(pingPong);
+    synths[1].connect(pingPong);
+    synths[2].connect(pingPong);
+    synths[3].connect(pingPong);
     registerLoop();
     setIsPlaying(true);
   }
@@ -149,9 +159,6 @@ function App() {
     setStep(-1);
   }
   function registerLoop() {
-
-
-
     Tone.Transport.bpm.value = 120;
     const loop = new Tone.Loop((time) => {
       // triggered every eighth note.
@@ -164,45 +171,29 @@ function App() {
     if(!isPlaying) return;
     Tone.Transport.start();
     const now = Tone.now();
-      // allSeries.map((series, i) => {
+    // allSeries.map((series, i) => {
       //   console.log(series)
       // })
-
+      
+      
+      
       if(Object.keys(allSeries).length === 0 && allSeries.constructor === Object) {
         console.log('empty')
         return
       }
-
-
+      pingPong.wet.value = delay ;
+      
       let keys = Object.keys(allSeries);
       for(let key in keys){
-        // console.log('hejhej')
-        // console.log(keys[key])
-        // console.log(allSeries[keys[key]])
-        // console.log(allSeries[keys[key]][step % 16].note)
-        if(allSeries[keys[key]][step % 16]?.pressed){
-          synths[key].triggerAttackRelease(allSeries[keys[key]][step % 16].note, "4n", now + key);
-          console.log(allSeries[keys[key]][step % 16].note)
+        let instrument = allSeries[keys[key]];
+
+        if(instrument.series[step % 16]?.pressed){
+          // synths[key].triggerAttackRelease(instrument.series[step % 16].note, "4n", now + key);
+          synths[key].triggerAttackRelease(instrument.series[step % 16].note, "4n", now);
         }
-        allSeries[keys[key]].forEach(element => {
-          
-          
-        });
 
 
       }
-      return
-      Object.entries(allSeries).map(series => {
-        console.log(series)
-      if (series[1][step % 16]?.pressed) {
-        synth2.triggerAttackRelease(series[step % 16].note, "4n", now);
-      }
-    });
-    // if (series2[step % 16]?.pressed) {
-    //   // console.log(series2[step % 16].note)
-    //   // synth2.triggerAttackRelease(series2[step % 16].note, "4n", now);
-    // }
-    // synth.triggerAttackRelease("A5", "4n", now);
   }
 
   React.useEffect(() => {
@@ -211,12 +202,15 @@ function App() {
 
   return (
     <div className="wrapper">
-      <Header>{isPlaying && (step % 16) + 1}</Header>
+      <Header>{isPlaying == true 
+        ? (step % 16) + 1
+        : '<Sequenzio />'
+     }</Header>
 
       <div className="sequencer">
-        <StepIndicator step={step % 16} />
-        <Instruments IDs={IDs} step={step % 16} allSeries={allSeries} setAllSeries={setAllSeries} />
-        <div className="row-center">
+        <StepIndicator step={step % 16} delay={delay} setDelay={setDelay} />
+        <Instruments IDs={IDs} step={step % 16} allSeries={allSeries} setAllSeries={setAllSeries}  />
+        <div className="row-right">
           <button onClick={startLoop}>play me</button>
           <button onClick={stopLoop}>stop me</button>
         </div>

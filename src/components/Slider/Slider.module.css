@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    margin-left: 3rem;
   }
   .label {
     font-size: 1rem;
@@ -14,10 +15,10 @@
     --handle-radius: 1000px;
     --track-size: 3px;
     --bg: white;
-    --track-color: hsl(0deg 0% 50% / 0.25);
-    --handle-color: rgb(123, 101, 233);
-    --track-active-color: hsl(0deg 0% 50% / 0.125);
-    --handle-active-color: hsl(250deg 100% 70%);
+    --track-color: white;
+    --handle-color: rgb(158,1,22);
+    --track-active-color: rgb(158,1,22);
+    --handle-active-color: rgb(158,1,22);
   
     display: block;
     width: 100%;
@@ -54,4 +55,8 @@
   }
   .slider:active::-webkit-slider-runnable-track {
     background: var(--track-active-color);
+  }
+
+  .hide{
+    visibility: hidden;
   }

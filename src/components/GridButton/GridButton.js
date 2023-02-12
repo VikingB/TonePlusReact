@@ -19,11 +19,10 @@ function GridButton({ series, setSeries, index: i }) {
   }
   return (
     <div className="gridButton">
-      <button onClick={() => switchNotes()}>
-        {series[i].note}
-      </button>
+      <button className="switchButton"
+      onClick={() => switchNotes()}>{series[i].note}</button>
       <button
-        className={`cell ${getClass(i)}`}
+        className={`toggleButton cell ${getClass(i)}`}
         key={i}
         onClick={() => toggleStep(i)}
       >

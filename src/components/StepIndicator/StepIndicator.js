@@ -1,7 +1,9 @@
 import React from "react";
 import { range } from "../../utils";
+import Slider from "../Slider";
 
-function StepIndicator({ step }) {
+function StepIndicator({ step, delay, setDelay }) {
+  
   return (
     <div className="stepindicator">
       <div className="row">
@@ -10,6 +12,14 @@ function StepIndicator({ step }) {
             <div className="lamp"></div>
           </div>
         ))}
+        <Slider
+          label="Master volume"
+          min={0}
+          max={1}
+          step={0.01}
+          value={delay}
+          onChange={(event) => setDelay(event.target.value)}
+        />
       </div>
     </div>
   );

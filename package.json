@@ -8,6 +8,7 @@
     "@react-three/drei": "9.7.1",
     "@react-three/fiber": "8.0.13",
     "@types/three": "0.140.0",
+    "lodash.debounce": "^4.0.8",
     "new-component": "4.0.0",
     "prettier": "^2.6.2",
     "react": "18.2.0",
