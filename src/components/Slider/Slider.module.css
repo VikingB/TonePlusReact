@@ -1,0 +1,57 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+  }
+  .slider {
+    --handle-size: 16px;
+    --handle-radius: 1000px;
+    --track-size: 3px;
+    --bg: white;
+    --track-color: hsl(0deg 0% 50% / 0.25);
+    --handle-color: rgb(123, 101, 233);
+    --track-active-color: hsl(0deg 0% 50% / 0.125);
+    --handle-active-color: hsl(250deg 100% 70%);
+  
+    display: block;
+    width: 100%;
+    background: transparent;
+    appearance: none;
+    outline-offset: 6px;
+    cursor: pointer;
+  }
+  .slider::-webkit-slider-thumb {
+    appearance: none;
+    height: var(--handle-size);
+    width: var(--handle-size);
+    border-radius: var(--handle-radius);
+    background: var(--handle-color);
+    cursor: grab;
+    transform: translateY(
+      calc(-50% + var(--track-size) / 2)
+    );
+    outline: 2px solid var(--bg);
+  }
+  .slider:active::-webkit-slider-thumb {
+    cursor: grabbing;
+    background: var(--handle-active-color);
+  }
+  .slider::-webkit-slider-runnable-track {
+    width: calc(100% - var(--handle-size));
+    height: var(--track-size);
+    background: var(--track-color);
+    border-radius: var(--track-size) / 2;
+    margin: calc(var(--handle-size) / 2) 0;
+  }
+  .slider::-moz-range-track {
+    background: var(--track-color);
+  }
+  .slider:active::-webkit-slider-runnable-track {
+    background: var(--track-active-color);
+  }

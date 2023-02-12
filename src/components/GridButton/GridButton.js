@@ -20,7 +20,7 @@ function GridButton({ series, setSeries, index: i }) {
   return (
     <div className="gridButton">
       <button onClick={() => switchNotes()}>
-        {notes[numberOfClicks % notes.length]}
+        {series[i].note}
       </button>
       <button
         className={`cell ${getClass(i)}`}

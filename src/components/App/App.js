@@ -6,86 +6,135 @@ import CanvasApp from "../CanvasApp";
 import * as Tone from "tone";
 import Grid from "../Grid";
 import StepIndicator from "../StepIndicator";
+import Instruments from "../Instruments";
 
 const synth = new Tone.Synth({
-  "oscillator": {
-      "type": "fatcustom",
-      "partials" : [0.2, 1, 0, 0.5, 0.1],
-      "spread" : 40,
-      "count" : 3
+  "harmonicity":8,
+  "modulationIndex": 2,
+  "oscillator" : {
+      "type": "sine"
   },
   "envelope": {
-      "attack": 0.1,
-      "decay": 1.6,
+      "attack": 0.001,
+      "decay": 2,
+      "sustain": 0.1,
+      "release": 2
+  },
+  "modulation" : {
+      "type" : "square"
+  },
+  "modulationEnvelope" : {
+      "attack": 0.002,
+      "decay": 0.2,
       "sustain": 0,
-      "release": 1.6
+      "release": 0.2
   }
 }).toDestination();
 const synth2 = new Tone.Synth({
-  "oscillator": {
-      "type": "fatcustom",
-      "partials" : [0.2, 1, 0, 0.5, 0.1],
-      "spread" : 40,
-      "count" : 3
+
+  "harmonicity":8,
+  "modulationIndex": 2,
+  "oscillator" : {
+      "type": "sine"
   },
   "envelope": {
-      "attack": 0.1,
-      "decay": 1.6,
+      "attack": 0.001,
+      "decay": 2,
+      "sustain": 0.1,
+      "release": 2
+  },
+  "modulation" : {
+      "type" : "square"
+  },
+  "modulationEnvelope" : {
+      "attack": 0.002,
+      "decay": 0.2,
       "sustain": 0,
-      "release": 1.6
+      "release": 0.2
+  }
+}).toDestination();
+const synth3 = new Tone.Synth({
+  "harmonicity":8,
+  "modulationIndex": 2,
+  "oscillator" : {
+      "type": "sine"
+  },
+  "envelope": {
+      "attack": 0.001,
+      "decay": 2,
+      "sustain": 0.1,
+      "release": 2
+  },
+  "modulation" : {
+      "type" : "square"
+  },
+  "modulationEnvelope" : {
+      "attack": 0.002,
+      "decay": 0.2,
+      "sustain": 0,
+      "release": 0.2
+  }
+}).toDestination();
+const synth4 = new Tone.Synth({
+  "harmonicity":8,
+  "modulationIndex": 2,
+  "oscillator" : {
+      "type": "sine"
+  },
+  "envelope": {
+      "attack": 0.001,
+      "decay": 2,
+      "sustain": 0.1,
+      "release": 2
+  },
+  "modulation" : {
+      "type" : "square"
+  },
+  "modulationEnvelope" : {
+      "attack": 0.002,
+      "decay": 0.2,
+      "sustain": 0,
+      "release": 0.2
   }
 }).toDestination();
 
+const synths = [synth, synth2, synth3, synth4];
 
-const seriesBluePrint = [
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() }, 
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-];
-const seriesBluePrint2 = [
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-  { pressed: false, note: 'C4', key: Math.random() },
-];
+const IDs = [
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+  Math.random(),
+]
 
 
 function App() {
-  console.log("rerender!");
   const [isPlaying, setIsPlaying] = React.useState(false);
-
+  const [allSeries, setAllSeries] = React.useState({});
   const [step, setStep] = React.useState(-1);
 
-  const [series, setSeries] = React.useState([...seriesBluePrint]);
-  const [series2, setSeries2] = React.useState([...seriesBluePrint2]);
 
-
-
+  console.log(allSeries)
 
   function startLoop() {
     if(isPlaying) return;
@@ -100,25 +149,59 @@ function App() {
     setStep(-1);
   }
   function registerLoop() {
+
+
+
+    Tone.Transport.bpm.value = 120;
     const loop = new Tone.Loop((time) => {
       // triggered every eighth note.
       setStep((current) => current + 1);
+      playSeries();
     }, "8n").start(0);
   }
 
   function playSeries() {
+    if(!isPlaying) return;
     Tone.Transport.start();
-    
-
     const now = Tone.now();
-    if (series[step % 16]?.pressed) {
-      synth.triggerAttackRelease(series[step % 16].note, "4n", now);
-    }
-    if (series2[step % 16]?.pressed) {
-      console.log(series2)
-      console.log(series2[step % 16].note)
-      synth2.triggerAttackRelease(series2[step % 16].note, "4n", now);
-    }
+      // allSeries.map((series, i) => {
+      //   console.log(series)
+      // })
+
+      if(Object.keys(allSeries).length === 0 && allSeries.constructor === Object) {
+        console.log('empty')
+        return
+      }
+
+
+      let keys = Object.keys(allSeries);
+      for(let key in keys){
+        // console.log('hejhej')
+        // console.log(keys[key])
+        // console.log(allSeries[keys[key]])
+        // console.log(allSeries[keys[key]][step % 16].note)
+        if(allSeries[keys[key]][step % 16]?.pressed){
+          synths[key].triggerAttackRelease(allSeries[keys[key]][step % 16].note, "4n", now + key);
+          console.log(allSeries[keys[key]][step % 16].note)
+        }
+        allSeries[keys[key]].forEach(element => {
+          
+          
+        });
+
+
+      }
+      return
+      Object.entries(allSeries).map(series => {
+        console.log(series)
+      if (series[1][step % 16]?.pressed) {
+        synth2.triggerAttackRelease(series[step % 16].note, "4n", now);
+      }
+    });
+    // if (series2[step % 16]?.pressed) {
+    //   // console.log(series2[step % 16].note)
+    //   // synth2.triggerAttackRelease(series2[step % 16].note, "4n", now);
+    // }
     // synth.triggerAttackRelease("A5", "4n", now);
   }
 
@@ -132,8 +215,7 @@ function App() {
 
       <div className="sequencer">
         <StepIndicator step={step % 16} />
-        <Grid step={step % 16} series={series} setSeries={setSeries} />
-        <Grid step={step % 16} series={series2} setSeries={setSeries2} />
+        <Instruments IDs={IDs} step={step % 16} allSeries={allSeries} setAllSeries={setAllSeries} />
         <div className="row-center">
           <button onClick={startLoop}>play me</button>
           <button onClick={stopLoop}>stop me</button>
