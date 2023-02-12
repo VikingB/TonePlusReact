@@ -8,15 +8,18 @@ import Grid from "../Grid";
 import StepIndicator from "../StepIndicator";
 
 const synth = new Tone.Synth({
-  oscillator: {
-    partials: [1, 0, 2, 0, 3],
+  "oscillator": {
+      "type": "fatcustom",
+      "partials" : [0.2, 1, 0, 0.5, 0.1],
+      "spread" : 40,
+      "count" : 3
   },
-  envelope: {
-    attack: 0.001,
-    decay: 1.2,
-    sustain: 0,
-    release: 2.2,
-  },
+  "envelope": {
+      "attack": 0.1,
+      "decay": 1.6,
+      "sustain": 0,
+      "release": 1.6
+  }
 }).toDestination();
 const synth2 = new Tone.Synth({
   "oscillator": {
@@ -26,7 +29,7 @@ const synth2 = new Tone.Synth({
       "count" : 3
   },
   "envelope": {
-      "attack": 0.001,
+      "attack": 0.1,
       "decay": 1.6,
       "sustain": 0,
       "release": 1.6
@@ -81,6 +84,9 @@ function App() {
   const [series, setSeries] = React.useState([...seriesBluePrint]);
   const [series2, setSeries2] = React.useState([...seriesBluePrint2]);
 
+
+
+
   function startLoop() {
     if(isPlaying) return;
     Tone.start();
@@ -100,7 +106,7 @@ function App() {
     }, "8n").start(0);
   }
 
-  function playSynth() {
+  function playSeries() {
     Tone.Transport.start();
     
 
@@ -111,13 +117,13 @@ function App() {
     if (series2[step % 16]?.pressed) {
       console.log(series2)
       console.log(series2[step % 16].note)
-      synth2.triggerAttackRelease(series2[step % 16].note, "2n", now);
+      synth2.triggerAttackRelease(series2[step % 16].note, "4n", now);
     }
     // synth.triggerAttackRelease("A5", "4n", now);
   }
 
   React.useEffect(() => {
-    playSynth();
+    playSeries();
   }, [step]);
 
   return (
