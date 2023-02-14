@@ -32,19 +32,19 @@ const synth = new Tone.Synth({
   },
 }).toDestination();
 const synth2 = new Tone.Synth({
-  harmonicity: 8,
+  harmonicity: 10,
   modulationIndex: 2,
   oscillator: {
     type: "sine",
   },
   envelope: {
-    attack: 0.001,
+    attack: 0.1,
     decay: 2,
     sustain: 0.1,
     release: 2,
   },
   modulation: {
-    type: "square",
+    type: "saw",
   },
   modulationEnvelope: {
     attack: 0.002,
@@ -129,7 +129,7 @@ const IDs = [
 
 const pingPong = new Tone.PingPongDelay("4n", 0.2);
 function App() {
-  console.log('rerender')
+  console.log("rerender");
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [allSeries, setAllSeries] = React.useState({});
   const [delay, setDelay] = React.useState(0);
@@ -144,8 +144,8 @@ function App() {
     synths[1].connect(pingPong);
     synths[2].connect(pingPong);
     synths[3].connect(pingPong);
-    registerLoop();
     setIsPlaying(true);
+    registerLoop();
   }
   function stopLoop() {
     Tone.Transport.cancel();
@@ -154,15 +154,16 @@ function App() {
   }
   function registerLoop() {
     Tone.Transport.bpm.value = 90;
+    let tick = 0;
     const loop = new Tone.Loop((time) => {
       // triggered every eighth note.
-      // playSeries();
       setStep((current) => current + 1);
+      playSeries(tick);
+      tick++;
     }, "8n").start(0);
   }
 
-  function playSeries() {
-    if (!isPlaying) return;
+  function playSeries(tick) {
     if (
       Object.keys(allSeries).length === 0 &&
       allSeries.constructor === Object
@@ -177,11 +178,10 @@ function App() {
     let keys = Object.keys(allSeries);
     for (let key in keys) {
       let instrument = allSeries[keys[key]];
-
-      if (instrument.series[step % 16]?.pressed) {
+      if (instrument.series[tick % 16]?.pressed) {
         // synths[key].triggerAttackRelease(instrument.series[step % 16].note, "4n", now + key);
         synths[key].triggerAttackRelease(
-          instrument.series[step % 16].note,
+          instrument.series[tick % 16].note,
           "4n",
           now
         );
@@ -190,7 +190,7 @@ function App() {
   }
 
   React.useEffect(() => {
-    playSeries();
+    // playSeries();
   }, [step]);
 
   return (

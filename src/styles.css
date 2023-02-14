@@ -203,6 +203,12 @@ h1 {
 .sequencer{
   min-width: 80vw;
   margin-inline: auto;
+  margin-block: auto;
+  padding: 2rem;
+  /* background: #9e0116; */
+  border: 13px outset grey;
+  background-image: linear-gradient( 320deg, hsl(352deg 99% 31%) 0%, hsl(352deg 100% 29%) 45%, hsl(351deg 100% 27%) 85% );
+  border-radius: 18px;
 }
 
 .cell.active{
