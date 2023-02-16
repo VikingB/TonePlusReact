@@ -16,9 +16,9 @@
     --track-size: 3px;
     --bg: white;
     --track-color: white;
-    --handle-color: rgb(158,1,22);
-    --track-active-color: rgb(158,1,22);
-    --handle-active-color: rgb(158,1,22);
+    --handle-color: #B3487F;
+    --track-active-color: #B3487F;
+    --handle-active-color: #B3487F;
   
     display: block;
     width: 100%;

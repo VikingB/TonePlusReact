@@ -1,30 +1,12 @@
 import React, { useEffect } from "react";
-import { range } from "../../utils";
 import GridButton from "../GridButton";
-import Slider from "../Slider";
-import debounce from "lodash.debounce";
-var seriesBluePrint = [
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-  { pressed: false, note: "C4", key: Math.random() },
-];
+
 function getBlueprint() {
   let arr = [];
   for (let i = 0; i < 16; i++) {
-    arr.push({ pressed: false, note: "C4", key: Math.random() });
+    if (i % 2) arr.push({ pressed: false, note: "C4", key: Math.random() });
+    else
+    arr.push({ pressed: true, note: "C4", key: Math.random() });
   }
   return arr;
 }
@@ -54,15 +36,6 @@ function Grid({ step, allSeries, setAllSeries, name }) {
             setSeries={setSeries}
           />
         ))}
-        {/* <Slider
-          label="Delay dry/wet"
-          min={0}
-          max={1}
-          step={0.01}
-          value={filter}
-          onChange={(event) => setFilter(event.target.value)}
-          
-        /> */}
       </div>
     </div>
   );

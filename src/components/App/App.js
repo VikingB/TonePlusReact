@@ -1,13 +1,12 @@
 import React from "react";
 import Header from "../Header";
-import { range } from "../../utils";
-
 import CanvasApp from "../CanvasApp";
 import * as Tone from "tone";
-import Grid from "../Grid";
 import StepIndicator from "../StepIndicator";
 import Instruments from "../Instruments";
-import { pingpong } from "three/src/math/MathUtils";
+import { IDs } from "./utilityObjects";
+import { useSynth } from "./synthHooks";
+import Synth from "../Synth/Synth";
 
 const synth = new Tone.Synth({
   harmonicity: 8,
@@ -32,19 +31,19 @@ const synth = new Tone.Synth({
   },
 }).toDestination();
 const synth2 = new Tone.Synth({
-  harmonicity: 10,
+  harmonicity: 8,
   modulationIndex: 2,
   oscillator: {
     type: "sine",
   },
   envelope: {
-    attack: 0.1,
+    attack: 0.001,
     decay: 2,
     sustain: 0.1,
     release: 2,
   },
   modulation: {
-    type: "saw",
+    type: "square",
   },
   modulationEnvelope: {
     attack: 0.002,
@@ -97,53 +96,36 @@ const synth4 = new Tone.Synth({
     release: 0.2,
   },
 }).toDestination();
+synth.volume.value = -16;
+synth2.volume.value = -16;
+synth3.volume.value = -20;
+synth4.volume.value = -6;
 
-const synths = [synth, synth2, synth3, synth4];
+// const preSynths = [synth, synth2, synth3, synth4];
+const preSynths = [];
 
-const IDs = [
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-  Math.random(),
-];
 
 const pingPong = new Tone.PingPongDelay("4n", 0.2);
+
 function App() {
-  console.log("rerender");
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [allSeries, setAllSeries] = React.useState({});
   const [delay, setDelay] = React.useState(0);
   const [step, setStep] = React.useState(-1);
+  const [synths , setSynths] = React.useState(preSynths);
 
+  const stepRef = React.useRef();
+  stepRef.current = step;
+  const delayRef = React.useRef();
+  delayRef.current = delay;
+
+  
+
+  
   function startLoop() {
     if (isPlaying) return;
     Tone.start();
     Tone.Transport.start();
-    pingPong.toDestination();
-    synths[0].connect(pingPong);
-    synths[1].connect(pingPong);
-    synths[2].connect(pingPong);
-    synths[3].connect(pingPong);
     setIsPlaying(true);
     registerLoop();
   }
@@ -153,27 +135,29 @@ function App() {
     setStep(-1);
   }
   function registerLoop() {
-    Tone.Transport.bpm.value = 90;
-    let tick = 0;
+    Tone.Transport.bpm.value = 40;
+   let tick = 0;
+    Tone.Transport.start();
     const loop = new Tone.Loop((time) => {
       // triggered every eighth note.
       setStep((current) => current + 1);
       playSeries(tick);
-      tick++;
+      tick++
     }, "8n").start(0);
   }
-
+  
   function playSeries(tick) {
+    console.log('synths', synths)
+    console.log(allSeries)
     if (
       Object.keys(allSeries).length === 0 &&
       allSeries.constructor === Object
-    ) {
-      return;
-    }
-    Tone.Transport.start();
-    const now = Tone.now();
+      ) {
+        return;
+      }
+      const now = Tone.now();
 
-    pingPong.wet.value = delay;
+    pingPong.wet.value = delayRef.current;
 
     let keys = Object.keys(allSeries);
     for (let key in keys) {
@@ -182,20 +166,21 @@ function App() {
         // synths[key].triggerAttackRelease(instrument.series[step % 16].note, "4n", now + key);
         synths[key].triggerAttackRelease(
           instrument.series[tick % 16].note,
-          "4n",
+          "8n",
           now
         );
       }
     }
   }
 
-  React.useEffect(() => {
-    // playSeries();
-  }, [step]);
+  // React.useEffect(() => {
+
+  //   // playSeries(step);
+  // }, [step]);
 
   return (
     <div className="wrapper">
-      <Header>{isPlaying == true ? (step % 16) + 1 : "<Sequenzio />"}</Header>
+
 
       <div className="sequencer">
         <StepIndicator step={step % 16} delay={delay} setDelay={setDelay} />
@@ -204,12 +189,21 @@ function App() {
           step={step % 16}
           allSeries={allSeries}
           setAllSeries={setAllSeries}
+          defaultNumberOfInstruments={synths.length}
+          synths={synths}
         />
+        <div className="synths">
+          <Synth setSynths={setSynths}/>
+          <Synth setSynths={setSynths}/>
+          {/* <Synth setSynths={setSynths}/>
+          <Synth setSynths={setSynths}/> */}
+        </div>
         <div className="row-right">
           <button onClick={startLoop}>play me</button>
           <button onClick={stopLoop}>stop me</button>
         </div>
         {/* <CanvasApp step={step} /> */}
+        
       </div>
     </div>
   );
