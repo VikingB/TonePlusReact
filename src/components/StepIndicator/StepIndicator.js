@@ -10,6 +10,7 @@ function StepIndicator({ step, delay, setDelay }) {
         {range(16).map((i) => (
           <div className={`cell ${step === i ? "active" : ""}`} key={i}>
             <div className="lamp"></div>
+            <div className="lamp blur"></div>
           </div>
         ))}
         {/* <Slider

@@ -1,7 +1,7 @@
 /*
   Theme and global variables
 */
-html {
+:root {
   overflow-y: scroll;
 
   --game-spacing: 32px;
@@ -23,13 +23,29 @@ html {
   --color-synth-yellow: #E7D27E;
   --color-synth-light-gray: #A8ADB5;
   --color-synth-dark-gray: #525862;
+
+    --shadow-color: 0deg 0% 0%;
+    --shadow-elevation-low:
+      0.4px 0.4px 0.7px hsl(var(--shadow-color) / 0.07),
+      1.3px 1.3px 2.3px -1.6px hsl(var(--shadow-color) / 0.12);
+    --shadow-elevation-medium:
+      0.4px 0.4px 0.7px hsl(var(--shadow-color) / 0.07),
+      1.8px 1.9px 3.3px -0.8px hsl(var(--shadow-color) / 0.1),
+      6.3px 6.3px 11.2px -1.6px hsl(var(--shadow-color) / 0.12);
+    --shadow-elevation-high:
+      0.4px 0.4px 0.7px hsl(var(--shadow-color) / 0.08),
+      3.3px 3.4px 6px -0.4px hsl(var(--shadow-color) / 0.09),
+      7.1px 7.2px 12.7px -0.8px hsl(var(--shadow-color) / 0.11),
+      14.1px 14.3px 25.3px -1.2px hsl(var(--shadow-color) / 0.13),
+      27px 27.4px 48.5px -1.6px hsl(var(--shadow-color) / 0.15);
+  
   
 
 
 
 
   position: relative;
-  background-attachment: scroll,fixed;
+  background-attachment: fixed;
   background-blend-mode: multiply;
   background-image: radial-gradient(51.98% 51.98% at 75.49% 26.72%,#1a29523c 0%,#2c407664 100%),url(.././public/grain2.png);
   background-size: auto,22rem 30rem;
@@ -155,14 +171,17 @@ h1 {
 
 
 .sequencer{
-  min-width: 80vw;
+
   margin-inline: auto;
   margin-block: auto;
   padding: 3.2rem;
+  max-width: 58rem;
+  width: 100%;
   /* background: #9e0116; */
   /* border: 13px outset grey; */
   background-image: linear-gradient( 320deg, #cfbab482 0%, #cfbab485 45%, #cfbab487 85% );
   border-radius: 3.2rem;
+  box-shadow: var(--shadow-elevation-high);
 }
 
 .cell.active{
@@ -177,6 +196,19 @@ h1 {
 }
 .cell.active .lamp{
   background: var(--color-synth-pink);
+  border: 1px solid #ab787891
+}
+.blur{
+
+  position: absolute;
+  left: 45%;
+  top: 33%;
+
+}
+
+.active .blur.lamp{
+  filter: blur(0.2rem);
+
 }
 
 .cell{
@@ -241,9 +273,10 @@ margin-bottom: 1.6rem;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  border: 2px solid var(--color-synth-dark-gray);
+  /* border: 2px solid var(--color-synth-dark-gray); */
   background-color: #2D2D36;
   border-radius: 1.6rem;
+  /* box-shadow: var(--shadow-elevation-medium); */
 }
 .synth-panel > div{
   margin-left: 0;
@@ -263,5 +296,10 @@ margin-bottom: 1.6rem;
 
 .stepindicator .cell{
   background-color: #9D8C73;
+}
+
+
+button{
+  cursor: pointer;
 }
 
